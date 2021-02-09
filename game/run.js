@@ -1,4 +1,4 @@
-STAY_DOWN.states.run = function () {
+STAY_DOWN.states.run = (function () {
   const {
     image,
     display,
@@ -12,7 +12,6 @@ STAY_DOWN.states.run = function () {
   const worldWidth = 1400;
   const worldHeight = 790;
   const player1 = new player(100, 100);
-  console.log(player1);
   const gravity = 1;
   const friction = 0.93;
   const output = document.createElement("p");
@@ -48,24 +47,12 @@ STAY_DOWN.states.run = function () {
       STAY_DOWN.changeState(states.pause);
       return;
     }
-    if (controller.getLeft() == 1) {
-      player1.moveLeft();
-      player1.changeFrame();
-    }
-    if (controller.getRight() == 1) {
-      player1.moveRight();
-      player1.changeFrame();
-      console.log(1);
-      left.dismissLastPressed();
-      right.makeLastPressed();
-    }
-    if (controller.getUp() == 1 && player1.jumping == false) {
-      player1.jump();
-      player1.changeFrame();
-    }
-    if (controller.getUp() == 0)
-      // this updates the position every update
-      player1.updatePosition(gravity, friction);
+    if (controller.getLeft() == 1) player1.moveLeft();
+    if (controller.getRight() == 1) player1.moveRight();
+    if (controller.getUp() == 1 && player1.jumping == false) player1.jump();
+
+    // this updates the position every update
+    player1.updatePosition(gravity, friction);
 
     // this brings the player on screen every time
     collision(player1, ground.y, worldWidth, 0);
@@ -90,7 +77,6 @@ STAY_DOWN.states.run = function () {
         item.randomMove(worldWidth, worldHeight, ground.y);
       }
     }
-    player1.updateFrame();
   }
 
   function collidePlatform(player, platform) {
@@ -162,4 +148,4 @@ STAY_DOWN.states.run = function () {
 
   //return new gamestate
   return new GameState(update, render, activate, deactivate);
-};
+})();
