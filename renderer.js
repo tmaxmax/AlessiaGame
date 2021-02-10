@@ -1,20 +1,12 @@
 STAY_DOWN.setRenderer(
   (function () {
-    const { display } = STAY_DOWN;
-    console.log(display);
+    const {
+      display,
+      constructors: { AnimationCharacter },
+    } = STAY_DOWN;
     return {
-      drawImage(image, x, y) {
-        display.drawImage(
-          image,
-          0,
-          0,
-          image.width,
-          image.height,
-          x,
-          y,
-          image.width,
-          image.height
-        );
+      drawImage(image, x, y, currentFrame) {
+        display.drawImage(image, 22 * currentFrame, 0, 22, 31, x, y, 22, 31);
       },
     };
   })()

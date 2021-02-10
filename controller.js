@@ -10,12 +10,6 @@ STAY_DOWN.setController(
       trigger(state) {
         if (state != this.state) this.active = this.state = state;
       },
-      makeLastPressed() {
-        this.lastPressed = true;
-      },
-      dismissLastPressed() {
-        this.lastPressed = false;
-      },
     };
     const left = new input();
     const right = new input();
@@ -57,6 +51,18 @@ STAY_DOWN.setController(
       },
       setP(active) {
         p.active = active;
+      },
+      RightLastState(state) {
+        right.lastPressed = state;
+      },
+      LeftLastState(state) {
+        left.lastPressed = state;
+      },
+      rightLastActive() {
+        return right.lastPressed;
+      },
+      leftLastActive() {
+        return left.lastPressed;
       },
       activate() {
         window.addEventListener("keydown", keyUpDown);

@@ -4,7 +4,7 @@ STAY_DOWN.setEngine(
     var raf_handle;
     var running = false;
     var acumulated_time = 0;
-    var framerate_time = 1000 / 2;
+    var framerate_time = 1000 / 120;
     var current_time = 0;
     function cycle(time_stamp) {
       raf_handle = window.requestAnimationFrame(cycle);

@@ -7,7 +7,8 @@ STAY_DOWN.constructors.AnimationCharacter = (function () {
     this.frame_index = 0;
   };
   Animation.prototype = {
-    changeFrame(frame_set, delay = 15) {
+    count: undefined,
+    changeFrame(frame_set, delay = 10) {
       if (this.frame_set != frame_set) {
         this.count = 0;
         this.delay = delay;
@@ -25,7 +26,9 @@ STAY_DOWN.constructors.AnimationCharacter = (function () {
             ? 0
             : this.frame_index + 1;
         this.frame = this.frame_set[this.frame_index]; // Change the current frame value.
+        return this.frame;
       }
+      return this.frame;
     },
   };
   return Animation;

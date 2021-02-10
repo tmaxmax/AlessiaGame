@@ -7,13 +7,13 @@ STAY_DOWN.states.run = (function () {
     constructors: { GameState, player },
   } = STAY_DOWN;
   const controller = STAY_DOWN.getController();
+  console.log(controller);
   const renderer = STAY_DOWN.getRenderer();
-  console.log(image);
   const worldWidth = 1400;
   const worldHeight = 790;
   const player1 = new player(100, 100);
   const gravity = 1;
-  const friction = 0.93;
+  const friction = 0.92;
   const output = document.createElement("p");
   output.innerText = "0";
   var ground = {
@@ -22,6 +22,7 @@ STAY_DOWN.states.run = (function () {
   var platforms = platform_manager.active_platforms;
   var items = items_manager.items_array;
   var item_count = 0;
+  var currentIndex;
 
   //activate and deactivate methods of GameState
   function activate() {
@@ -47,9 +48,28 @@ STAY_DOWN.states.run = (function () {
       STAY_DOWN.changeState(states.pause);
       return;
     }
-    if (controller.getLeft() == 1) player1.moveLeft();
-    if (controller.getRight() == 1) player1.moveRight();
-    if (controller.getUp() == 1 && player1.jumping == false) player1.jump();
+    if (controller.getLeft() == 1) {
+      player1.moveLeft();
+      player1.changeFrame(image.frameSets[1]);
+      controller.RightLastState(false);
+      controller.LeftLastState(true);
+    }
+    if (controller.getRight() == 1) {
+      player1.moveRight();
+      player1.changeFrame(image.frameSets[0]);
+      controller.RightLastState(true);
+      controller.LeftLastState(false);
+    }
+    if (controller.getUp() == 1 && player1.jumping == false) {
+      player1.jump();
+    }
+    if (!controller.getLeft() && !controller.getRight()) {
+      if (controller.rightLastActive() == true) {
+        player1.changeFrame(image.frameSets[2]);
+      } else if (controller.leftLastActive() == true) {
+        player1.changeFrame(image.frameSets[3]);
+      }
+    }
 
     // this updates the position every update
     player1.updatePosition(gravity, friction);
@@ -77,8 +97,12 @@ STAY_DOWN.states.run = (function () {
         item.randomMove(worldWidth, worldHeight, ground.y);
       }
     }
+    currentIndex = player1.updateFrame();
+    if (currentIndex != undefined) currentIndex;
   }
+  //end of update function
 
+  //utility funcctions
   function collidePlatform(player, platform) {
     if (
       player.getRight() < platform.getLeft() ||
@@ -137,7 +161,7 @@ STAY_DOWN.states.run = (function () {
       display.fillRect(item.x, item.y, 20, 20);
     }
 
-    renderer.drawImage(image.alessia, player1.x, player1.y);
+    renderer.drawImage(image.alessia, player1.x, player1.y, currentIndex);
   }
   display.canvas.width = worldWidth;
   display.canvas.height = worldHeight;
