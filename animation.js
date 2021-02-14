@@ -50,7 +50,7 @@ const STAY_DOWN = (function () {
 
         states: { run },
       } = this;
-      loader.loadImages(["alessia.png"], function (images) {
+      loader.loadImages(["mallesia.png"], function (images) {
         console.log(images);
         image.alessia = images[0];
         console.log(image.alessia);

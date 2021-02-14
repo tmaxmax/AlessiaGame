@@ -6,7 +6,17 @@ STAY_DOWN.setRenderer(
     } = STAY_DOWN;
     return {
       drawImage(image, x, y, currentFrame) {
-        display.drawImage(image, 22 * currentFrame, 0, 22, 31, x, y, 22, 31);
+        display.drawImage(
+          image,
+          22 * currentFrame * 4,
+          0,
+          22 * 4,
+          31 * 4,
+          Math.floor(x),
+          Math.floor(y),
+          22 * 4,
+          31 * 4
+        );
       },
     };
   })()

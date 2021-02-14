@@ -7,7 +7,7 @@ STAY_DOWN.constructors.player = (function (rect, AnimationCharacter) {
     this.velocityX = 0;
     this.moveForce = 1;
 
-    rect.call(this, x, y, 22, 31);
+    rect.call(this, x, y, 22 * 2.2, 31 * 4);
   };
   player.prototype = {
     moveLeft() {

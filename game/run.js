@@ -23,6 +23,7 @@ STAY_DOWN.states.run = (function () {
   var items = items_manager.items_array;
   var item_count = 0;
   var currentIndex;
+  var chestie = 0;
 
   //activate and deactivate methods of GameState
   function activate() {
@@ -48,26 +49,32 @@ STAY_DOWN.states.run = (function () {
       STAY_DOWN.changeState(states.pause);
       return;
     }
+
+    //left press
     if (controller.getLeft() == 1) {
       player1.moveLeft();
       player1.changeFrame(image.frameSets[1]);
       controller.RightLastState(false);
       controller.LeftLastState(true);
     }
+
+    //right press
     if (controller.getRight() == 1) {
       player1.moveRight();
       player1.changeFrame(image.frameSets[0]);
       controller.RightLastState(true);
       controller.LeftLastState(false);
     }
+
     if (controller.getUp() == 1 && player1.jumping == false) {
       player1.jump();
     }
+    chestie++;
     if (!controller.getLeft() && !controller.getRight()) {
       if (controller.rightLastActive() == true) {
-        player1.changeFrame(image.frameSets[2]);
+        player1.changeFrame(image.frameSets[2], 10);
       } else if (controller.leftLastActive() == true) {
-        player1.changeFrame(image.frameSets[3]);
+        player1.changeFrame(image.frameSets[3], 10);
       }
     }
 
@@ -161,7 +168,14 @@ STAY_DOWN.states.run = (function () {
       display.fillRect(item.x, item.y, 20, 20);
     }
 
-    renderer.drawImage(image.alessia, player1.x, player1.y, currentIndex);
+    renderer.drawImage(image.alessia, player1.x - 15, player1.y, currentIndex);
+    // display.fillRect(
+    //   player1.x,
+    //   player1.y,
+    //   player1.width,
+    //   player1.height,
+    //   player1.color
+    // );
   }
   display.canvas.width = worldWidth;
   display.canvas.height = worldHeight;
