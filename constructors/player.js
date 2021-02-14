@@ -35,6 +35,7 @@ STAY_DOWN.constructors.player = (function (rect, AnimationCharacter) {
       this.moveX(this.velocityX);
       this.moveY(this.velocityY);
     },
+
     // isAbleToDie(){}
     jumping: false,
   };

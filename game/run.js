@@ -7,13 +7,12 @@ STAY_DOWN.states.run = (function () {
     constructors: { GameState, player },
   } = STAY_DOWN;
   const controller = STAY_DOWN.getController();
-  console.log(controller);
   const renderer = STAY_DOWN.getRenderer();
   const worldWidth = 1400;
   const worldHeight = 790;
   const player1 = new player(100, 100);
   const gravity = 1;
-  const friction = 0.92;
+  const friction = 0.87;
   const output = document.createElement("p");
   output.innerText = "0";
   var ground = {
@@ -23,7 +22,7 @@ STAY_DOWN.states.run = (function () {
   var items = items_manager.items_array;
   var item_count = 0;
   var currentIndex;
-  var chestie = 0;
+  var dead = 0;
 
   //activate and deactivate methods of GameState
   function activate() {
@@ -49,41 +48,8 @@ STAY_DOWN.states.run = (function () {
       STAY_DOWN.changeState(states.pause);
       return;
     }
-
-    //left press
-    if (controller.getLeft() == 1) {
-      player1.moveLeft();
-      player1.changeFrame(image.frameSets[1]);
-      controller.RightLastState(false);
-      controller.LeftLastState(true);
-    }
-
-    //right press
-    if (controller.getRight() == 1) {
-      player1.moveRight();
-      player1.changeFrame(image.frameSets[0]);
-      controller.RightLastState(true);
-      controller.LeftLastState(false);
-    }
-
-    if (controller.getUp() == 1 && player1.jumping == false) {
-      player1.jump();
-    }
-    chestie++;
-    if (!controller.getLeft() && !controller.getRight()) {
-      if (controller.rightLastActive() == true) {
-        player1.changeFrame(image.frameSets[2], 10);
-      } else if (controller.leftLastActive() == true) {
-        player1.changeFrame(image.frameSets[3], 10);
-      }
-    }
-
-    // this updates the position every update
-    player1.updatePosition(gravity, friction);
-
-    // this brings the player on screen every time
-    collision(player1, ground.y, worldWidth, 0);
-
+    if (dead === 0) playerUpdate();
+    else playerNotUpdate();
     // platforms
     for (var i = platforms.length - 1; i > -1; --i) {
       var platform = platforms[i];
@@ -104,8 +70,8 @@ STAY_DOWN.states.run = (function () {
         item.randomMove(worldWidth, worldHeight, ground.y);
       }
     }
-    currentIndex = player1.updateFrame();
-    if (currentIndex != undefined) currentIndex;
+
+    // this brings the player on screen every time
   }
   //end of update function
 
@@ -134,10 +100,13 @@ STAY_DOWN.states.run = (function () {
       return false;
     return true;
   }
-  function collision(player, top, right, left) {
+  function collision(player, top, right, left, platform) {
     if (player.getBottom() >= top) {
-      player.setBottom(top);
-      player.downer();
+      platformCheckTop(platform, player);
+      item_count = 0;
+    } else if (player.getBottom() <= player.height - 30) {
+      platformCheckBottom(platform, player);
+      item_count = 0;
     }
     if (player.getRight() >= right + player.width) {
       player.setRight(left);
@@ -146,6 +115,97 @@ STAY_DOWN.states.run = (function () {
       player.setLeft(right);
     }
   }
+
+  //checking if the player can land on the platform
+  function platformCheckTop(platform, player) {
+    if (platform.getTop() < 270) {
+      collision(
+        player1,
+        ground.y,
+        worldWidth,
+        0,
+        platforms[Math.floor(Math.random() * platforms.length)]
+      );
+    } else {
+      dead = 1;
+      setTimeout(() => {
+        platformSetter(player, platform);
+        dead = 0;
+      }, 2000);
+    }
+  }
+  function platformCheckBottom(platform, player) {
+    if (platform.getTop() < 270) {
+      collision(
+        player1,
+        ground.y,
+        worldWidth,
+        0,
+        platforms[Math.floor(Math.random() * platforms.length)]
+      );
+    } else {
+      dead = 1;
+      setTimeout(() => {
+        dead = 0;
+        platformSetter(player, platform);
+      }, 2000);
+    }
+  }
+
+  //set the position
+  function platformSetter(player, platform) {
+    player.setBottom(platform.getTop() - platform.height);
+    player.setLeft(platform.getLeft() + 10);
+    player.downer();
+  }
+
+  // only updating player shit
+  function playerUpdate() {
+    //left press
+    if (controller.getLeft() == 1) {
+      player1.moveLeft();
+      player1.changeFrame(image.frameSets[1]);
+      controller.RightLastState(false);
+      controller.LeftLastState(true);
+    }
+
+    //right press
+    if (controller.getRight() == 1) {
+      player1.moveRight();
+      player1.changeFrame(image.frameSets[0]);
+      controller.RightLastState(true);
+      controller.LeftLastState(false);
+    }
+
+    if (controller.getUp() == 1 && player1.jumping == false) {
+      player1.jump();
+    }
+
+    if (!controller.getLeft() && !controller.getRight()) {
+      if (controller.rightLastActive() == true) {
+        player1.changeFrame(image.frameSets[2], 10);
+      } else if (controller.leftLastActive() == true) {
+        player1.changeFrame(image.frameSets[3], 10);
+      }
+    }
+
+    // this updates the position every update
+    player1.updatePosition(gravity, friction);
+
+    collision(
+      player1,
+      ground.y,
+      worldWidth,
+      0,
+      platforms[Math.floor(Math.random() * platforms.length)]
+    );
+    output.innerText = item_count;
+
+    currentIndex = player1.updateFrame();
+    if (currentIndex != undefined) currentIndex;
+  }
+
+  function playerNotUpdate() {}
 
   // rendering
   function render() {
@@ -167,8 +227,15 @@ STAY_DOWN.states.run = (function () {
       display.fillStyle = "#AD343E";
       display.fillRect(item.x, item.y, 20, 20);
     }
-
-    renderer.drawImage(image.alessia, player1.x - 15, player1.y, currentIndex);
+    if (dead === 0)
+      renderer.drawImage(
+        image.alessia,
+        player1.x - 15,
+        player1.y,
+        currentIndex
+      );
+    else {
+    }
     // display.fillRect(
     //   player1.x,
     //   player1.y,

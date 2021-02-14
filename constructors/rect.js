@@ -48,6 +48,7 @@ STAY_DOWN.constructors.rect = (function () {
     getOldTop() {
       return this.old_y;
     },
+    pause() {},
   };
   return rect;
 })();
