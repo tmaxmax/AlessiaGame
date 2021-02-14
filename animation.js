@@ -9,18 +9,23 @@ const STAY_DOWN = (function () {
     constructors: {},
     image: {
       alessia: undefined,
+      optionOne: undefined,
+      optionTwo: undefined,
       frameSets: [
         [0, 1, 2, 3, 4, 5, 6, 7],
         [8, 9, 10, 11, 12, 13, 14],
         [15, 16, 17, 18],
         [19, 20, 21, 22],
       ],
+      frameSetStand: [[0, 1, 2, 3, 4, 5]],
     },
     managers: {},
     states: {},
 
     display: document.createElement("canvas").getContext("2d", { alpha: true }),
-
+    displayCH: document
+      .createElement("canvas")
+      .getContext("2d", { alpha: true }),
     //changeState
     changeState(currentState) {
       currentState.deactivate();
@@ -47,19 +52,24 @@ const STAY_DOWN = (function () {
       const {
         image,
         display,
-
-        states: { run },
+        displayCH,
+        states: { run, pause, chooser },
       } = this;
       loader.loadImages(
         [
-          "mallesia.png",
-          "alessia-modified-Sheet.png",
-          "alessia-original-Sheet.png",
+          "alessia-White.png",
+          "alessiaFINALred.png",
+          "alessiaFINALwhite.png",
+          "alessia.png",
         ],
         function (images) {
-          image.alessia = images[0];
+          image.alessiaWhite = images[0];
+          image.optionOne = images[1];
+          image.optionTwo = images[2];
+          image.alessia = images[3];
           controller.activate();
           document.body.appendChild(display.canvas);
+          document.body.appendChild(displayCH.canvas);
           STAY_DOWN.changeState(run);
           engine.start();
         }

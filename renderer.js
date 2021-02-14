@@ -2,6 +2,7 @@ STAY_DOWN.setRenderer(
   (function () {
     const {
       display,
+      displayCH,
       constructors: { AnimationCharacter },
     } = STAY_DOWN;
     return {
@@ -16,6 +17,19 @@ STAY_DOWN.setRenderer(
           Math.floor(y),
           22 * 4,
           31 * 4
+        );
+      },
+      drawImage1(image, x, y, currentFrame) {
+        displayCH.drawImage(
+          image,
+          (image.width / 6) * currentFrame,
+          0,
+          image.width / 6,
+          image.height,
+          Math.floor(x),
+          Math.floor(y),
+          image.width / 6,
+          image.height
         );
       },
     };
