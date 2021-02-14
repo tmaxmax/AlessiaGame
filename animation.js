@@ -50,15 +50,20 @@ const STAY_DOWN = (function () {
 
         states: { run },
       } = this;
-      loader.loadImages(["mallesia.png"], function (images) {
-        console.log(images);
-        image.alessia = images[0];
-        console.log(image.alessia);
-        controller.activate();
-        document.body.appendChild(display.canvas);
-        STAY_DOWN.changeState(run);
-        engine.start();
-      });
+      loader.loadImages(
+        [
+          "mallesia.png",
+          "alessia-modified-Sheet.png",
+          "alessia-original-Sheet.png",
+        ],
+        function (images) {
+          image.alessia = images[0];
+          controller.activate();
+          document.body.appendChild(display.canvas);
+          STAY_DOWN.changeState(run);
+          engine.start();
+        }
+      );
 
       window.addEventListener("resize", run.resize);
     },

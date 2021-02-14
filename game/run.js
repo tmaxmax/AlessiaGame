@@ -23,6 +23,8 @@ STAY_DOWN.states.run = (function () {
   var item_count = 0;
   var currentIndex;
   var dead = 0;
+  var deadOtput = document.createElement("h1");
+  var toggle = 0;
 
   //activate and deactivate methods of GameState
   function activate() {
@@ -48,8 +50,14 @@ STAY_DOWN.states.run = (function () {
       STAY_DOWN.changeState(states.pause);
       return;
     }
-    if (dead === 0) playerUpdate();
-    else playerNotUpdate();
+    if (dead === 0) {
+      playerUpdate();
+    } else {
+      if (toggle === 0) {
+        youAreDead();
+        toggle = 1;
+      }
+    }
     // platforms
     for (var i = platforms.length - 1; i > -1; --i) {
       var platform = platforms[i];
@@ -76,6 +84,7 @@ STAY_DOWN.states.run = (function () {
   //end of update function
 
   //utility funcctions
+
   function collidePlatform(player, platform) {
     if (
       player.getRight() < platform.getLeft() ||
@@ -131,7 +140,7 @@ STAY_DOWN.states.run = (function () {
       setTimeout(() => {
         platformSetter(player, platform);
         dead = 0;
-      }, 2000);
+      }, 3000);
     }
   }
   function platformCheckBottom(platform, player) {
@@ -148,7 +157,7 @@ STAY_DOWN.states.run = (function () {
       setTimeout(() => {
         dead = 0;
         platformSetter(player, platform);
-      }, 2000);
+      }, 3000);
     }
   }
 
@@ -162,6 +171,10 @@ STAY_DOWN.states.run = (function () {
   // only updating player shit
   function playerUpdate() {
     //left press
+    if (deadOtput.innerText != "") {
+      deadOtput.innerText = "";
+    }
+    toggle = 0;
     if (controller.getLeft() == 1) {
       player1.moveLeft();
       player1.changeFrame(image.frameSets[1]);
@@ -204,9 +217,20 @@ STAY_DOWN.states.run = (function () {
     currentIndex = player1.updateFrame();
     if (currentIndex != undefined) currentIndex;
   }
-
-  function playerNotUpdate() {}
-
+  function youAreDead() {
+    document.body.appendChild(deadOtput);
+    deadOtput.innerText = "you are dead ! please wait " + 3 + " seconds";
+    var timeleft = 2;
+    var downloadTimer = setInterval(function () {
+      if (timeleft <= 0) {
+        clearInterval(downloadTimer);
+      } else {
+        deadOtput.innerText =
+          "you are dead ! please wait " + timeleft + " seconds";
+      }
+      timeleft -= 1;
+    }, 1000);
+  }
   // rendering
   function render() {
     display.fillStyle = "#2E2D4D";
