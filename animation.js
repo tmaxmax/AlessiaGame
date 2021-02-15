@@ -60,7 +60,7 @@ const STAY_DOWN = (function () {
           "alessia-White.png",
           "alessiaFINALred.png",
           "alessiaFINALwhite.png",
-          "alessia.png",
+          "alessiaRED.png",
         ],
         function (images) {
           image.alessiaWhite = images[0];
@@ -70,12 +70,12 @@ const STAY_DOWN = (function () {
           controller.activate();
           document.body.appendChild(display.canvas);
           document.body.appendChild(displayCH.canvas);
-          STAY_DOWN.changeState(run);
+          STAY_DOWN.changeState(chooser);
           engine.start();
         }
       );
 
-      window.addEventListener("resize", run.resize);
+      window.addEventListener("resize", chooser.resize);
     },
 
     //setters
