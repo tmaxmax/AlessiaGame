@@ -25,6 +25,7 @@ STAY_DOWN.states.run = (function () {
   var dead = 0;
   var deadOtput = document.createElement("h1");
   var toggle = 0;
+  var playerHasPlatform = 1;
 
   //activate and deactivate methods of GameState
   function activate() {
@@ -55,9 +56,17 @@ STAY_DOWN.states.run = (function () {
     } else {
       if (toggle === 0) {
         youAreDead();
+        playerHasPlatform = 1;
         toggle = 1;
       }
     }
+    var newPlatform = platforms[Math.floor(Math.random() * platforms.length)];
+    if (platformCheck(newPlatform) && playerHasPlatform == 0) {
+      platformSetter(player1, newPlatform);
+      playerHasPlatform = 1;
+      dead = 0;
+    }
+
     // platforms
     for (var i = platforms.length - 1; i > -1; --i) {
       var platform = platforms[i];
@@ -109,13 +118,13 @@ STAY_DOWN.states.run = (function () {
       return false;
     return true;
   }
-  function collision(player, top, right, left, platform) {
+  function detectColision(player, top, right, left) {
     if (player.getBottom() >= top) {
-      platformCheckTop(platform, player);
       item_count = 0;
+      dead = 1;
     } else if (player.getBottom() <= player.height - 30) {
-      platformCheckBottom(platform, player);
       item_count = 0;
+      dead = 1;
     }
     if (player.getRight() >= right + player.width) {
       player.setRight(left);
@@ -126,39 +135,10 @@ STAY_DOWN.states.run = (function () {
   }
 
   //checking if the player can land on the platform
-  function platformCheckTop(platform, player) {
+  function platformCheck(platform) {
     if (platform.getTop() < 270) {
-      collision(
-        player1,
-        ground.y,
-        worldWidth,
-        0,
-        platforms[Math.floor(Math.random() * platforms.length)]
-      );
-    } else {
-      dead = 1;
-      setTimeout(() => {
-        platformSetter(player, platform);
-        dead = 0;
-      }, 3000);
-    }
-  }
-  function platformCheckBottom(platform, player) {
-    if (platform.getTop() < 270) {
-      collision(
-        player1,
-        ground.y,
-        worldWidth,
-        0,
-        platforms[Math.floor(Math.random() * platforms.length)]
-      );
-    } else {
-      dead = 1;
-      setTimeout(() => {
-        dead = 0;
-        platformSetter(player, platform);
-      }, 3000);
-    }
+      return 0;
+    } else return 1;
   }
 
   //set the position
@@ -175,6 +155,7 @@ STAY_DOWN.states.run = (function () {
       deadOtput.innerText = "";
     }
     toggle = 0;
+
     if (controller.getLeft() == 1) {
       player1.moveLeft();
       player1.changeFrame(image.frameSets[1]);
@@ -205,13 +186,7 @@ STAY_DOWN.states.run = (function () {
     // this updates the position every update
     player1.updatePosition(gravity, friction);
 
-    collision(
-      player1,
-      ground.y,
-      worldWidth,
-      0,
-      platforms[Math.floor(Math.random() * platforms.length)]
-    );
+    detectColision(player1, ground.y, worldWidth, 0);
     output.innerText = item_count;
 
     currentIndex = player1.updateFrame();
@@ -219,17 +194,20 @@ STAY_DOWN.states.run = (function () {
   }
   function youAreDead() {
     document.body.appendChild(deadOtput);
-    deadOtput.innerText = "you are dead ! please wait " + 3 + " seconds";
+    deadOtput.innerText = "You are dead ! Please wait " + 3 + " seconds";
     var timeleft = 2;
     var downloadTimer = setInterval(function () {
       if (timeleft <= 0) {
         clearInterval(downloadTimer);
       } else {
         deadOtput.innerText =
-          "you are dead ! please wait " + timeleft + " seconds";
+          "You are dead ! Please wait " + timeleft + " seconds";
       }
       timeleft -= 1;
     }, 1000);
+    setTimeout(() => {
+      playerHasPlatform = 0;
+    }, 3000);
   }
   // rendering
   function render() {

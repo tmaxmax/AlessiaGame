@@ -57,7 +57,7 @@ const STAY_DOWN = (function () {
       } = this;
       loader.loadImages(
         [
-          "alessia-White.png",
+          "alessiaWHITE.png",
           "alessiaFINALred.png",
           "alessiaFINALwhite.png",
           "alessiaRED.png",

@@ -1,11 +1,10 @@
 STAY_DOWN.constructors.player = (function (rect, AnimationCharacter) {
-  console.log(AnimationCharacter);
-
   const player = function (x, y) {
     this.color = "#CCB7AE";
     this.velocityY = 0;
     this.velocityX = 0;
     this.moveForce = 1;
+    this.jumpForce = 30;
 
     rect.call(this, x, y, 22 * 2.2, 31 * 4);
   };
@@ -19,7 +18,7 @@ STAY_DOWN.constructors.player = (function (rect, AnimationCharacter) {
 
     jump() {
       this.jumping = true;
-      this.velocityY -= 20;
+      this.velocityY -= this.jumpForce;
     },
     // downer is reseting a jump
     downer(velocity = 0) {

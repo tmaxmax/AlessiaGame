@@ -27,6 +27,14 @@
       background-color: #6e4fa3;
       position: absolute;
       image-rendering: pixelated;
+      transition: all 1s ease-in-out;
+      width: 1400px;
+      height: 740px;
+    }
+    canvas.deactivate {
+      transition: all 0.8s ease-in-out;
+      width: 1440px;
+      height: 0px;
     }
     p {
       color: rgb(255, 248, 225);
@@ -36,24 +44,31 @@
       font-size: 30px;
       font-weight: 1000;
     }
-    a {
-      color: rgb(255, 248, 225);
+    button {
       position: absolute;
       top: 0;
-      left: 0;
+      left: 500px;
       font-size: 30px;
       font-weight: 1000;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: all 1s;
     }
-    a.player1 {
+    button:hover {
+      font-size: 40px;
+      transition: all 1s;
+    }
+    button.player1 {
       position: absolute;
       top: 50px;
-      left: 100px;
-      color: black;
+      left: 500px;
+      color: rgb(0, 0, 0);
     }
-    a.player2 {
+    button.player2 {
       position: absolute;
       top: 50px;
-      left: 100px;
+      left: 500px;
       color: black;
     }
     h1 {
@@ -83,6 +98,5 @@
     <script>
       STAY_DOWN.initialize();
     </script>
-    <a href=""></a>
   </body>
 </html>
