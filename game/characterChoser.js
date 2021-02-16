@@ -8,8 +8,11 @@ STAY_DOWN.states.chooser = (function () {
     constructors: { GameState, player },
   } = STAY_DOWN;
   const renderer = STAY_DOWN.getRenderer();
+  STAY_DOWN.setColor();
   const WorldWidth = 1400;
   const WorldHeight = 740;
+  var colorArrayOptionOne = ["#8C705F", "#FEEFDD", "#D8D8D8", "#CCFFCB"];
+  var colorArrayOptionTwo = ["#250902", "#690500", "#CF8E80", "#FFFACC"];
   const alessiaOne = document.createElement("button");
   alessiaOne.setAttribute("class", "player1");
   alessiaOne.setAttribute("href", "player1");
@@ -56,6 +59,7 @@ STAY_DOWN.states.chooser = (function () {
       alessiaOne.style.display = "none";
       alessiaTwo.style.display = "none";
       image.alessia = image.alessiaWhite;
+      STAY_DOWN.setColor(colorArrayOptionOne);
     } else if (e.target.classList.contains("player2")) {
       setTimeout(() => {
         changeState(states.run);
@@ -64,6 +68,7 @@ STAY_DOWN.states.chooser = (function () {
       playerTwoChosen = 1;
       alessiaOne.style.display = "none";
       alessiaTwo.style.display = "none";
+      STAY_DOWN.setColor(colorArrayOptionTwo);
     }
   }
   function update() {

@@ -60,6 +60,7 @@ STAY_DOWN.states.run = (function () {
         toggle = 1;
       }
     }
+
     var newPlatform = platforms[Math.floor(Math.random() * platforms.length)];
     if (platformCheck(newPlatform) && playerHasPlatform == 0) {
       platformSetter(player1, newPlatform);
@@ -211,22 +212,26 @@ STAY_DOWN.states.run = (function () {
   }
   // rendering
   function render() {
-    display.fillStyle = "#2E2D4D";
+    let colorArray = STAY_DOWN.getColor();
+
+    //background
+    display.fillStyle = colorArray[0];
     display.fillRect(0, 0, worldWidth, worldHeight);
 
-    display.fillStyle = "#EFECCA";
+    //ground
+    display.fillStyle = colorArray[1];
     display.fillRect(0, ground.y, worldWidth, worldHeight);
 
     // platform
     for (var i = platforms.length - 1; i > -1; --i) {
-      display.fillStyle = "#ECA72C";
+      display.fillStyle = colorArray[2];
       var platform = platforms[i];
       display.fillRect(platform.x, platform.y, platform.width, platform.height);
     }
     //items
     for (var i = items.length - 1; i > -1; --i) {
       var item = items[i];
-      display.fillStyle = "#AD343E";
+      display.fillStyle = colorArray[3];
       display.fillRect(item.x, item.y, 20, 20);
     }
     if (dead === 0)

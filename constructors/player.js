@@ -1,6 +1,5 @@
 STAY_DOWN.constructors.player = (function (rect, AnimationCharacter) {
   const player = function (x, y) {
-    this.color = "#CCB7AE";
     this.velocityY = 0;
     this.velocityX = 0;
     this.moveForce = 1;

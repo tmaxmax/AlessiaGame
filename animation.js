@@ -5,6 +5,7 @@ const STAY_DOWN = (function () {
   let engine;
   let loader;
   let renderer;
+  let colors = [];
   return {
     constructors: {},
     image: {
@@ -21,13 +22,12 @@ const STAY_DOWN = (function () {
     },
     managers: {},
     states: {},
-
     display: document.createElement("canvas").getContext("2d", { alpha: true }),
     displayCH: document
       .createElement("canvas")
       .getContext("2d", { alpha: true }),
     //changeState
-    changeState(currentState) {
+    changeState(currentState, colorPallet) {
       currentState.deactivate();
       state = currentState;
       currentState.activate();
@@ -45,6 +45,9 @@ const STAY_DOWN = (function () {
     },
     getRenderer() {
       return renderer;
+    },
+    getColor() {
+      return colors;
     },
 
     //initializer
@@ -90,6 +93,9 @@ const STAY_DOWN = (function () {
     },
     setRenderer(rendererSetter) {
       renderer = rendererSetter;
+    },
+    setColor(colorsArray) {
+      colors = colorsArray;
     },
   };
 })();
