@@ -28,6 +28,8 @@ STAY_DOWN.states.chooser = (function () {
   var playerTwoChosen = 0;
   var positionForOne = 350;
   var positionForTwo = 50;
+  var player1 = 1;
+  var player2 = 2;
   function activate() {
     document.body.appendChild(alessiaOne);
     document.body.appendChild(alessiaTwo);
@@ -60,18 +62,26 @@ STAY_DOWN.states.chooser = (function () {
       alessiaTwo.style.display = "none";
       image.alessia = image.alessiaWhite;
       STAY_DOWN.setColor(colorArrayOptionOne);
+      STAY_DOWN.setPlayer(player1);
+      //background + item + platform
+      image.background = image.city;
+      image.item = image.heart;
+      image.platform = image.hoverboard;
     } else if (e.target.classList.contains("player2")) {
       setTimeout(() => {
         changeState(states.run);
-        console.log("lmao");
         displayCH.canvas.setAttribute("class", "deactivate");
       }, 2000);
+      STAY_DOWN.setPlayer(player2);
       playerTwoChosen = 1;
       alessiaOne.style.display = "none";
       alessiaTwo.style.display = "none";
       STAY_DOWN.setColor(colorArrayOptionTwo);
+
+      //background + item + platform
       image.background = image.optionOneBackground;
-      console.log(image.background);
+      image.item = image.heart;
+      image.platform = image.cloud;
     }
   }
   function update() {

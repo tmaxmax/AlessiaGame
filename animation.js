@@ -6,6 +6,7 @@ const STAY_DOWN = (function () {
   let loader;
   let renderer;
   let colors = [];
+  let player;
   return {
     constructors: {},
     image: {
@@ -14,7 +15,13 @@ const STAY_DOWN = (function () {
       optionTwo: undefined,
       background: undefined,
       optionOneBackground: undefined,
+      optionTwoBackground: undefined,
+      platform: undefined,
+      item: undefined,
       heart: undefined,
+      cloud: undefined,
+      city: undefined,
+      hoverboard: undefined,
       frameSets: [
         [0, 1, 2, 3, 4, 5, 6, 7],
         [8, 9, 10, 11, 12, 13, 14],
@@ -54,6 +61,9 @@ const STAY_DOWN = (function () {
     getColor() {
       return colors;
     },
+    getPlayer() {
+      return player;
+    },
 
     //initializer
     initialize() {
@@ -71,6 +81,9 @@ const STAY_DOWN = (function () {
           "alessiaRED.png",
           "stars.png",
           "heart.png",
+          "cloud.png",
+          "city.png",
+          "hoverboard.png",
         ],
         function (images) {
           image.alessiaWhite = images[0];
@@ -79,6 +92,9 @@ const STAY_DOWN = (function () {
           image.alessia = images[3];
           image.optionOneBackground = images[4];
           image.heart = images[5];
+          image.cloud = images[6];
+          image.city = images[7];
+          image.hoverboard = images[8];
           controller.activate();
           document.body.appendChild(display.canvas);
           document.body.appendChild(displayCH.canvas);
@@ -105,6 +121,9 @@ const STAY_DOWN = (function () {
     },
     setColor(colorsArray) {
       colors = colorsArray;
+    },
+    setPlayer(player_) {
+      player = player_;
     },
   };
 })();

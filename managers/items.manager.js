@@ -3,7 +3,7 @@ STAY_DOWN.managers.items_manager = (function () {
   return {
     items_array: [],
     addItem(x, y) {
-      this.items_array.push(new Item(x, y, 90, 90));
+      this.items_array.push(new Item(x, y, 70, 70));
     },
   };
 })();

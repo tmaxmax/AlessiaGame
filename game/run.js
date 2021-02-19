@@ -8,6 +8,7 @@ STAY_DOWN.states.run = (function () {
   } = STAY_DOWN;
   const controller = STAY_DOWN.getController();
   const renderer = STAY_DOWN.getRenderer();
+  const playerCheck = STAY_DOWN.getPlayer();
   const worldWidth = 1400;
   const worldHeight = 790;
   const player1 = new player(100, 100);
@@ -30,6 +31,8 @@ STAY_DOWN.states.run = (function () {
   var playerHasPlatform = 1;
   var frameIndexBackground = 0;
   var frameIndexItem = 0;
+  var frmaeIndexPlatform = 0;
+  var initializePlatform = 0;
 
   //activate and deactivate methods of GameState
   function activate() {
@@ -49,6 +52,16 @@ STAY_DOWN.states.run = (function () {
 
   //updating
   function update() {
+    if (initializePlatform == 0) {
+      for (let x = worldWidth - 48; x > 0; x -= 90) {
+        if (STAY_DOWN.getPlayer() == 1)
+          platform_manager.createPlatform(x, ground.y - 60, 90, 100);
+        if (STAY_DOWN.getPlayer() == 2)
+          platform_manager.createPlatform(x, ground.y, 64, 5);
+      }
+      initializePlatform = 1;
+    }
+    const playerCheck = STAY_DOWN.getPlayer();
     // these deal with controls and responses
     if (controller.getP()) {
       controller.setP(false);
@@ -76,9 +89,16 @@ STAY_DOWN.states.run = (function () {
     for (var i = platforms.length - 1; i > -1; --i) {
       var platform = platforms[i];
       platform.moveUp();
-      if (platform.y < 0) platform.y = ground.y;
-      //colider with platform
+      if (STAY_DOWN.getPlayer() == 2) {
+        if (platform.y < 0) platform.y = ground.y;
+      } else if (
+        STAY_DOWN.getPlayer() == 1 &&
+        hoverBoardTopDetection(platform, 0)
+      ) {
+        setDelay(platform, ground);
+      }
       if (collidePlatform(player1, platform)) {
+        //colider with platform
         // reseting jumping state
         player1.downer(platform.velocityY);
       }
@@ -103,6 +123,11 @@ STAY_DOWN.states.run = (function () {
 
   //utility funcctions
 
+  function setDelay(platform, ground) {
+    setTimeout(() => {
+      platform.y = ground.y - 60;
+    }, 100);
+  }
   function collidePlatform(player, platform) {
     if (
       player.getRight() < platform.getLeft() ||
@@ -149,7 +174,11 @@ STAY_DOWN.states.run = (function () {
       return 0;
     } else return 1;
   }
-
+  function hoverBoardTopDetection(platform, top) {
+    if (platform.getBottom() <= top) {
+      return 1;
+    }
+  }
   //set the position
   function platformSetter(player, platform) {
     player.setBottom(platform.getTop() - platform.height);
@@ -221,7 +250,6 @@ STAY_DOWN.states.run = (function () {
   // rendering
   function render() {
     let colorArray = STAY_DOWN.getColor();
-
     display.fillStyle = colorArray[0];
 
     //background
@@ -232,18 +260,11 @@ STAY_DOWN.states.run = (function () {
     display.fillStyle = colorArray[1];
     display.fillRect(0, ground.y, worldWidth, worldHeight);
 
-    // platform
-    for (var i = platforms.length - 1; i > -1; --i) {
-      display.fillStyle = colorArray[2];
-      var platform = platforms[i];
-      display.fillRect(platform.x, platform.y, platform.width, platform.height);
-    }
-
     //items
     for (var i = items.length - 1; i > -1; --i) {
       var item = items[i];
 
-      renderer.drawItem(image.heart, item.x, item.y, frameIndexItem);
+      renderer.drawItem(image.item, item.x, item.y, frameIndexItem);
     }
     if (dead === 0)
       renderer.drawImage(
@@ -252,20 +273,41 @@ STAY_DOWN.states.run = (function () {
         player1.y,
         currentIndex
       );
-    else {
+
+    for (var i = platforms.length - 1; i > -1; --i) {
+      display.fillStyle = colorArray[2];
+      var platform = platforms[i];
+
+      if (STAY_DOWN.getPlayer() == 2) {
+        display.drawImage(
+          image.platform,
+          0,
+          0,
+          image.platform.width,
+          image.platform.height,
+          platform.x - 10,
+          platform.y - 25,
+          image.platform.width,
+          image.platform.height
+        );
+      }
+      if (STAY_DOWN.getPlayer() == 1) {
+        display.drawImage(
+          image.platform,
+          0,
+          0,
+          image.platform.width / 4,
+          image.platform.height,
+          platform.x - 10,
+          platform.y,
+          image.platform.width / 4,
+          image.platform.height
+        );
+      }
     }
-    // display.fillRect(
-    //   player1.x,
-    //   player1.y,
-    //   player1.width,
-    //   player1.height,
-    //   player1.color
-    // );
   }
   display.canvas.width = worldWidth;
   display.canvas.height = worldHeight;
-  for (let x = worldWidth - 48; x > 0; x -= 90)
-    platform_manager.createPlatform(x, ground.y);
 
   items_manager.addItem(100, 100);
 
