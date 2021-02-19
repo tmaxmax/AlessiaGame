@@ -12,6 +12,9 @@ const STAY_DOWN = (function () {
       alessia: undefined,
       optionOne: undefined,
       optionTwo: undefined,
+      background: undefined,
+      optionOneBackground: undefined,
+      heart: undefined,
       frameSets: [
         [0, 1, 2, 3, 4, 5, 6, 7],
         [8, 9, 10, 11, 12, 13, 14],
@@ -19,6 +22,8 @@ const STAY_DOWN = (function () {
         [19, 20, 21, 22],
       ],
       frameSetStand: [[0, 1, 2, 3, 4, 5]],
+      backgroundFrame: [[0, 1, 2, 3]],
+      heartFrameSet: [[0, 1, 2, 3, 4, 5, 6, 7]],
     },
     managers: {},
     states: {},
@@ -64,12 +69,16 @@ const STAY_DOWN = (function () {
           "alessiaFINALred.png",
           "alessiaFINALwhite.png",
           "alessiaRED.png",
+          "stars.png",
+          "heart.png",
         ],
         function (images) {
           image.alessiaWhite = images[0];
           image.optionOne = images[1];
           image.optionTwo = images[2];
           image.alessia = images[3];
+          image.optionOneBackground = images[4];
+          image.heart = images[5];
           controller.activate();
           document.body.appendChild(display.canvas);
           document.body.appendChild(displayCH.canvas);

@@ -12,7 +12,7 @@ STAY_DOWN.states.chooser = (function () {
   const WorldWidth = 1400;
   const WorldHeight = 740;
   var colorArrayOptionOne = ["#8C705F", "#FEEFDD", "#D8D8D8", "#CCFFCB"];
-  var colorArrayOptionTwo = ["#250902", "#690500", "#CF8E80", "#FFFACC"];
+  var colorArrayOptionTwo = ["#130A1E", "#EED3D9", "#CF8E80", "#FFFACC"];
   const alessiaOne = document.createElement("button");
   alessiaOne.setAttribute("class", "player1");
   alessiaOne.setAttribute("href", "player1");
@@ -63,12 +63,15 @@ STAY_DOWN.states.chooser = (function () {
     } else if (e.target.classList.contains("player2")) {
       setTimeout(() => {
         changeState(states.run);
+        console.log("lmao");
         displayCH.canvas.setAttribute("class", "deactivate");
       }, 2000);
       playerTwoChosen = 1;
       alessiaOne.style.display = "none";
       alessiaTwo.style.display = "none";
       STAY_DOWN.setColor(colorArrayOptionTwo);
+      image.background = image.optionOneBackground;
+      console.log(image.background);
     }
   }
   function update() {

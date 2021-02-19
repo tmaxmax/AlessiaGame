@@ -32,6 +32,32 @@ STAY_DOWN.setRenderer(
           image.height
         );
       },
+      drawImageBackground(image, x, y, currentFrame) {
+        display.drawImage(
+          image,
+          (image.width / 4) * currentFrame,
+          0,
+          image.width / 4,
+          image.height,
+          x,
+          y,
+          image.width / 4,
+          image.height
+        );
+      },
+      drawItem(image, x, y, currentFrame) {
+        display.drawImage(
+          image,
+          (image.width / 8) * currentFrame,
+          0,
+          image.width / 8,
+          image.height,
+          x,
+          y,
+          image.width / 8,
+          image.height
+        );
+      },
     };
   })()
 );

@@ -16,8 +16,10 @@ STAY_DOWN.states.run = (function () {
   const output = document.createElement("p");
   output.innerText = "0";
   var ground = {
-    y: worldHeight - 60,
+    y: worldHeight - 82,
   };
+  var background = new player(0, 0);
+  var itemPlayer = new player(0, 0);
   var platforms = platform_manager.active_platforms;
   var items = items_manager.items_array;
   var item_count = 0;
@@ -26,6 +28,8 @@ STAY_DOWN.states.run = (function () {
   var deadOtput = document.createElement("h1");
   var toggle = 0;
   var playerHasPlatform = 1;
+  var frameIndexBackground = 0;
+  var frameIndexItem = 0;
 
   //activate and deactivate methods of GameState
   function activate() {
@@ -88,6 +92,10 @@ STAY_DOWN.states.run = (function () {
         item.randomMove(worldWidth, worldHeight, ground.y);
       }
     }
+    itemPlayer.changeFrame(image.heartFrameSet[0], 5);
+    frameIndexItem = itemPlayer.updateFrame();
+    background.changeFrame(image.backgroundFrame[0], 7);
+    frameIndexBackground = background.updateFrame();
 
     // this brings the player on screen every time
   }
@@ -214,9 +222,11 @@ STAY_DOWN.states.run = (function () {
   function render() {
     let colorArray = STAY_DOWN.getColor();
 
-    //background
     display.fillStyle = colorArray[0];
+
+    //background
     display.fillRect(0, 0, worldWidth, worldHeight);
+    renderer.drawImageBackground(image.background, 0, 0, frameIndexBackground);
 
     //ground
     display.fillStyle = colorArray[1];
@@ -228,11 +238,12 @@ STAY_DOWN.states.run = (function () {
       var platform = platforms[i];
       display.fillRect(platform.x, platform.y, platform.width, platform.height);
     }
+
     //items
     for (var i = items.length - 1; i > -1; --i) {
       var item = items[i];
-      display.fillStyle = colorArray[3];
-      display.fillRect(item.x, item.y, 20, 20);
+
+      renderer.drawItem(image.heart, item.x, item.y, frameIndexItem);
     }
     if (dead === 0)
       renderer.drawImage(
