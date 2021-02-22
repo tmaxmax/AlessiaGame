@@ -39,7 +39,7 @@ const STAY_DOWN = (function () {
       .createElement("canvas")
       .getContext("2d", { alpha: true }),
     //changeState
-    changeState(currentState, colorPallet) {
+    changeState(currentState, colorPallette) {
       currentState.deactivate();
       state = currentState;
       currentState.activate();
@@ -84,7 +84,7 @@ const STAY_DOWN = (function () {
           "cloud.png",
           "city.png",
           "hoverboard.png",
-        ],
+        ].map(elem => `static/${elem}`),
         function (images) {
           image.alessiaWhite = images[0];
           image.optionOne = images[1];
