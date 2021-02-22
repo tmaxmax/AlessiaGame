@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Alessia's bizzare adventures</title>
+  </head>
+  <style>
+    @font-face {
+      font-family: "MC";
+      src: url("fonts/MC.otf");
+    }
+    * {
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "MC";
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(153, 201, 255);
+    }
+    canvas {
+      background-color: #6e4fa3;
+      position: absolute;
+      image-rendering: pixelated;
+      transition: all 1s ease-in-out;
+      width: 1400px;
+      height: 740px;
+    }
+    canvas.deactivate {
+      transition: all 0.8s ease-in-out;
+      width: 1440px;
+      height: 0px;
+    }
+    p {
+      color: rgb(255, 248, 225);
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 30px;
+      font-weight: 1000;
+    }
+    button {
+      position: absolute;
+      top: 0;
+      left: 500px;
+      font-size: 30px;
+      font-weight: 1000;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: all 1s;
+    }
+    button:hover {
+      font-size: 40px;
+      transition: all 1s;
+    }
+    button.player1 {
+      position: absolute;
+      top: 50px;
+      left: 500px;
+      color: rgb(0, 0, 0);
+    }
+    button.player2 {
+      position: absolute;
+      top: 50px;
+      left: 500px;
+      color: black;
+    }
+    h1 {
+      position: absolute;
+      z-index: 100;
+      color: #0a090c;
+      font-size: 50px;
+      width: 1400px;
+      display: flex;
+      background-color: white;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+  <script src="../src/animation.js"></script>
+  <script src="../src/controller.js"></script>
+  <script src="../src/engine.js"></script>
+  <script src="../src/constructors/rect.js"></script>
+  <script src="../src/constructors/characterAnimation.js"></script>
+  <script src="../src/constructors/player.js"></script>
+  <script src="../src/renderer.js"></script>
+  <script src="../src/loadImages.js"></script>
+  <script src="../src/constructors/platforms.js"></script>
+  <script src="../src/constructors/items.js"></script>
+  <script src="../src/managers/items.manager.js"></script>
+  <script src="../src/managers/platforms.manager.js"></script>
+  <script src="../src/constructors/gameStates.js"></script>
+  <script src="../src/game/characterChoser.js"></script>
+  <script src="../src/game/pasue.js"></script>
+  <script src="../src/game/run.js"></script>
+  <script src="../src/index.js"></script>
+  <body></body>
+</html>
